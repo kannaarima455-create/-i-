@@ -1,0 +1,25 @@
+# 1️⃣  Creamos el proyecto y el package.json
+npm init -y
+
+# 2️⃣  Instalamos las librerías que necesita el bot
+npm install whatsapp-web.js qrcode-terminal axios
+
+# 3️⃣  Creamos el archivo principal
+touch index.js
+
+# 4️⃣  Copiamos el código del bot
+cat > index.js <<'EOF'
+const { Client } = require('whatsapp-web.js')
+const qrcode = require('qrcode-terminal')
+const axios = require('axios')
+
+const client = new Client()
+
+client.on('qr', qr => qrcode.generate(qr, { small: true }))
+client.on('ready', () => console.log('Bot de Furina listo!'))
+
+client.on('message', async msg => {
+  const txt = msg.body.toLowerCase()
+  if (txt.includes('furina')) {
+    try {
+      const { data } = await axios.get('
